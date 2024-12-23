@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "tritastic.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "PlayerDamageTracker",
+    "TridentEntityAccessor",
+    "TridentEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

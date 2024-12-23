@@ -1,0 +1,39 @@
+{
+	"schemaVersion": 1,
+	"id": "tritastic",
+	"version": "${version}",
+	"name": "Tritastic",
+	"description": "Adds additional trident variants.",
+	"authors": [
+		"TorNato"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/tritastic/icon.png",
+	"environment": "*",
+	"mixins": [
+		"tritastic.mixins.json",
+		{
+			"config": "tritastic.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"entrypoints": {
+		"fabric-datagen": [
+          "tritastic.datagen.DataGenerator"
+		],
+		"main": [
+			"tritastic.Tritastic"
+		],
+		"client": [
+			"tritastic.TritasticClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.16",
+		"minecraft": "~1.21.1"
+	}
+}

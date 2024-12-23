@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:trident",
+  "addition": "minecraft:wither_skeleton_skull",
+  "result": {
+    "id": "tritastic:soulfork"
+  }
+}

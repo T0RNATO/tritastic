@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:trident",
+  "addition": "minecraft:phantom_membrane",
+  "result": {
+    "id": "tritastic:nightfork"
+  }
+}
