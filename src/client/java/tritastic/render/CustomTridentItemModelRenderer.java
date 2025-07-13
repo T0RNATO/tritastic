@@ -11,11 +11,14 @@ import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.item.model.special.SpecialModelRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ModelTransformationMode;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 import tritastic.items.CustomTrident;
+
+import java.util.Set;
 
 public class CustomTridentItemModelRenderer implements SpecialModelRenderer<Identifier> {
     private final TridentEntityModel model;
@@ -25,12 +28,19 @@ public class CustomTridentItemModelRenderer implements SpecialModelRenderer<Iden
     }
 
     @Override
-    public void render(@Nullable Identifier texture_id, ModelTransformationMode modelTransformationMode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, boolean glint) {
+    public void render(@Nullable Identifier data, ItemDisplayContext displayContext, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, boolean glint) {
         matrices.push();
         matrices.scale(1.0F, -1.0F, -1.0F);
-        VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers, this.model.getLayer(texture_id), false, glint);
+        VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(vertexConsumers, this.model.getLayer(data), false, glint);
         this.model.render(matrices, vertexConsumer, light, overlay);
         matrices.pop();
+    }
+
+    @Override
+    public void collectVertices(Set<Vector3f> vertices) {
+        MatrixStack matrixStack = new MatrixStack();
+        matrixStack.scale(1.0F, -1.0F, -1.0F);
+        this.model.getRootPart().collectVertices(matrixStack, vertices);
     }
 
     @Override

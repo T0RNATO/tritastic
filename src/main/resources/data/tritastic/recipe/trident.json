@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "pattern": [
+        " TT",
+        " PT",
+        "P  "
+    ],
+    "key": {
+        "P": [
+            "minecraft:prismarine_shard"
+        ],
+        "T": [
+            "tritastic:guardian_spike"
+        ]
+    },
+    "result": {
+        "id": "minecraft:trident"
+    }
+}

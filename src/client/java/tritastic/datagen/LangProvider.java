@@ -18,6 +18,9 @@ public class LangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.SOULFORK, "Soulfork");
         translationBuilder.add(ModItems.NIGHTFORK, "Fork of Night");
         translationBuilder.add(ModItems.ECHOFANG, "Echofang");
+        translationBuilder.add(ModItems.ENDERFORK, "Enderfork");
+
+        translationBuilder.add(ModItems.GUARDIAN_SPIKE, "Guardian Spike");
 //        try {
 //            var existingFilePath = dataOutput.getModContainer().findPath("assets/mymod/lang/en_us.existing.json");
 //            if (existingFilePath.isPresent()) {

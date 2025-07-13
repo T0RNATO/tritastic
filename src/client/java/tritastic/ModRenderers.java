@@ -9,5 +9,6 @@ public class ModRenderers {
         EntityRendererRegistry.register(ModEntities.SOULFORK, ctx -> new CustomTridentEntityRenderer(ctx, "textures/entity/soulfork.png"));
         EntityRendererRegistry.register(ModEntities.NIGHTFORK, ctx -> new CustomTridentEntityRenderer(ctx, "textures/entity/nightfork.png"));
         EntityRendererRegistry.register(ModEntities.ECHOFANG, ctx -> new CustomTridentEntityRenderer(ctx, "textures/entity/echofang.png"));
+        EntityRendererRegistry.register(ModEntities.ENDERFORK, ctx -> new CustomTridentEntityRenderer(ctx, "textures/entity/enderfork.png"));
     }
 }

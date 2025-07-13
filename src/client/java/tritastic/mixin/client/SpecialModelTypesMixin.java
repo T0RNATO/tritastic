@@ -22,6 +22,6 @@ public class SpecialModelTypesMixin {
 
     @Inject(method="bootstrap", at=@At("TAIL"))
     private static void addCustomTridentRenderer(CallbackInfo ci) {
-        ID_MAPPER.put(Identifier.of(Tritastic.ID, "custom_trident"), CustomTridentItemModelRenderer.Unbaked.CODEC);
+        ID_MAPPER.put(Tritastic.id("custom_trident"), CustomTridentItemModelRenderer.Unbaked.CODEC);
     }
 }

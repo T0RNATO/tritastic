@@ -21,7 +21,7 @@ public class CustomTridentEntityRenderer extends EntityRenderer<TridentEntity, T
 
     public CustomTridentEntityRenderer(EntityRendererFactory.Context context, String texture_path) {
         super(context);
-        TEXTURE = Identifier.of(Tritastic.ID, texture_path);
+        TEXTURE = Tritastic.id(texture_path);
         this.model = new TridentEntityModel(context.getPart(EntityModelLayers.TRIDENT));
     }
 

@@ -36,6 +36,9 @@ public class ModelProvider extends FabricModelProvider {
         registerTrident(gen, ModItems.SOULFORK);
         registerTrident(gen, ModItems.NIGHTFORK);
         registerTrident(gen, ModItems.ECHOFANG);
+        registerTrident(gen, ModItems.ENDERFORK);
+
+        gen.register(ModItems.GUARDIAN_SPIKE, Models.GENERATED);
     }
 
     @Override

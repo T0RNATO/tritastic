@@ -27,6 +27,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tritastic.ModComponents;
 import tritastic.entities.CustomTridentEntity;
 
 import java.util.List;
@@ -43,17 +44,29 @@ public abstract class CustomTrident<T extends CustomTridentEntity<T>> extends Tr
     public abstract boolean riptideCondition(PlayerEntity player, ItemStack item);
     public abstract @NotNull ProjectileEntity.ProjectileCreator<T> newProjectile();
 
+    public void onRiptide(ItemStack stack, World world, PlayerEntity player, float riptide_strength) {
+        Vec3d motion = getMotion(player, riptide_strength);
+        player.addVelocity(motion);
+
+        player.useRiptide(20, 8.0F, stack);
+
+        if (player.isOnGround()) {
+            player.move(MovementType.SELF, new Vec3d(0.0, riptideStrengthMultiplier(1.2F), 0.0));
+        }
+
+        RegistryEntry<SoundEvent> registryEntry = EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.TRIDENT_SOUND).orElse(SoundEvents.ITEM_TRIDENT_THROW);
+        world.playSoundFromEntity(null, player, registryEntry.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
+    }
+
     public void use(ItemStack stack, World world, PlayerEntity user, float riptide_strength) { }
     public float riptideStrengthMultiplier(float strength) {return strength;}
 
     public static List<MutableText> tooltip(@Nullable String melee, @Nullable String hit, String riptide) {
         var h = Objects.requireNonNullElse(hit, "None");
         return List.of(
-            Text.literal("---").formatted(Formatting.GRAY),
             Text.literal("  Riptide Condition: ").append(Text.literal(riptide).formatted(Formatting.GRAY)),
             Text.literal("  Hit Effect: ").append(Text.literal(h).formatted(Formatting.GRAY)),
-            Text.literal("  Melee Effect: ").append(Text.literal(Objects.requireNonNullElse(melee, h)).formatted(Formatting.GRAY)),
-            Text.literal("---").formatted(Formatting.GRAY)
+            Text.literal("  Melee Effect: ").append(Text.literal(Objects.requireNonNullElse(melee, h)).formatted(Formatting.GRAY))
         );
     }
 
@@ -79,6 +92,11 @@ public abstract class CustomTrident<T extends CustomTridentEntity<T>> extends Tr
                 stack.damage(1, player);
                 if (riptide_strength == 0.0F) {
                     T tridentEntity = ProjectileEntity.spawnWithVelocity(newProjectile(), serverWorld, stack, player, 0.0F, 2.5F, 1.0F);
+                    var hand = user.getActiveHand();
+                    switch (hand) {
+                        case MAIN_HAND -> tridentEntity.setAttached(ModComponents.TRIDENT_SLOT_ATTACHMENT, player.getInventory().getSelectedSlot());
+                        case OFF_HAND -> tridentEntity.setAttached(ModComponents.TRIDENT_SLOT_ATTACHMENT, -1);
+                    }
                     if (player.isInCreativeMode()) {
                         tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
                     } else {
@@ -91,16 +109,7 @@ public abstract class CustomTrident<T extends CustomTridentEntity<T>> extends Tr
             }
 
             if (riptide_strength > 0.0F) {
-                Vec3d motion = getMotion(player, riptide_strength);
-                player.addVelocity(motion);
-
-                player.useRiptide(20, 8.0F, stack);
-
-                if (player.isOnGround()) {
-                    player.move(MovementType.SELF, new Vec3d(0.0, riptideStrengthMultiplier(1.2F), 0.0));
-                }
-
-                world.playSoundFromEntity(null, player, registryEntry.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
+                this.onRiptide(stack, world, player, riptide_strength);
                 return true;
             }
             return false;

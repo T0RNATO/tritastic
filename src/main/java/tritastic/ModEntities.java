@@ -7,15 +7,11 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
-import tritastic.entities.EchofangEntity;
-import tritastic.entities.HellforkEntity;
-import tritastic.entities.NightforkEntity;
-import tritastic.entities.SoulforkEntity;
+import tritastic.entities.*;
 
 public class ModEntities {
     private static <T extends Entity> EntityType<T> register(String id,  EntityType. EntityFactory<T> factory) {
-        var key = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Identifier.of(Tritastic.ID, id));
+        var key = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Tritastic.id(id));
 
         var builder = EntityType.Builder.create(factory, SpawnGroup.MISC)
                 .dropsNothing()
@@ -31,6 +27,7 @@ public class ModEntities {
     public static final EntityType<SoulforkEntity> SOULFORK = register("soulfork", SoulforkEntity::new);
     public static final EntityType<NightforkEntity> NIGHTFORK = register("nightfork", NightforkEntity::new);
     public static final EntityType<EchofangEntity> ECHOFANG = register("echofang", EchofangEntity::new);
+    public static final EntityType<EnderforkEntity> ENDERFORK = register("enderfork", EnderforkEntity::new);
 
     public static void initialise() {}
 }
