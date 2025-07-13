@@ -16,6 +16,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import tritastic.ModAttachments;
 import tritastic.ModComponents;
 import tritastic.Tritastic;
 import tritastic.entities.EnderforkEntity;
@@ -46,7 +47,7 @@ public class Enderfork extends CustomTrident<EnderforkEntity> {
     @Override
     public void onRiptide(ItemStack stack, World world, PlayerEntity player, float strength) {
         var ticks = MathHelper.ceil(strength / 0.75) * 5;
-        player.setAttached(ModComponents.ENDERFORK_RIPTIDE, player.getRotationVector());
+        player.setAttached(ModAttachments.ENDERFORK_RIPTIDE, ModAttachments.Enderfork.create(player.getRotationVector()));
         player.useRiptide(ticks, 8.0F, stack);
         player.setNoGravity(true);
         RegistryEntry<SoundEvent> registryEntry = EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.TRIDENT_SOUND).orElse(SoundEvents.ITEM_TRIDENT_THROW);

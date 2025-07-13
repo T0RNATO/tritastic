@@ -10,6 +10,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import tritastic.ModAttachments;
 import tritastic.ModComponents;
 import tritastic.Tritastic;
 import tritastic.entities.EchofangEntity;
@@ -48,6 +49,6 @@ public class Echofang extends CustomTrident<EchofangEntity> implements DamageTra
     @Override
     public void onRiptide(ItemStack stack, World world, PlayerEntity player, float strength) {
         super.onRiptide(stack, world, player, strength);
-        player.setAttached(ModComponents.ECHOFANG_RIPTIDE, true);
+        player.setAttached(ModAttachments.ECHOFANG_RIPTIDE, true);
     }
 }

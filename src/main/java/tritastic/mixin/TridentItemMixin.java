@@ -8,6 +8,7 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.TridentItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import tritastic.ModAttachments;
 import tritastic.ModComponents;
 
 @Mixin(TridentItem.class)
@@ -17,8 +18,8 @@ public class TridentItemMixin {
         var hand = user.getActiveHand();
         if (user instanceof PlayerEntity player) {
             switch (hand) {
-                case MAIN_HAND -> original.setAttached(ModComponents.TRIDENT_SLOT_ATTACHMENT, player.getInventory().getSelectedSlot());
-                case OFF_HAND -> original.setAttached(ModComponents.TRIDENT_SLOT_ATTACHMENT, -1);
+                case MAIN_HAND -> original.setAttached(ModAttachments.TRIDENT_SLOT_ATTACHMENT, player.getInventory().getSelectedSlot());
+                case OFF_HAND -> original.setAttached(ModAttachments.TRIDENT_SLOT_ATTACHMENT, -1);
             }
         }
         return original;

@@ -7,6 +7,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.util.Identifier;
+import tritastic.other.ExpandingTooltip;
 
 public class Tritastic implements ModInitializer {
     public static String ID = "tritastic";
@@ -21,6 +22,7 @@ public class Tritastic implements ModInitializer {
         ModEntities.initialise();
         ModParticles.initialise();
         ModComponents.initialise();
+        ModAttachments.initialise();
 
         var elder_guardian_table = Identifier.ofVanilla("entities/elder_guardian");
 
@@ -30,5 +32,6 @@ public class Tritastic implements ModInitializer {
                 builder.pool(pool);
             }
         });
+        ExpandingTooltip.INSTANCE = () -> false;
     }
 }

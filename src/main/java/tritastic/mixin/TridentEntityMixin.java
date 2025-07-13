@@ -9,6 +9,7 @@ import net.minecraft.util.Hand;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import tritastic.ModAttachments;
 import tritastic.ModComponents;
 import tritastic.entities.CustomTridentEntity;
 
@@ -28,7 +29,7 @@ public abstract class TridentEntityMixin {
 
     @WrapOperation(method = "tryPickup", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/PersistentProjectileEntity;tryPickup(Lnet/minecraft/entity/player/PlayerEntity;)Z"))
     private boolean awd(TridentEntity trident, PlayerEntity player, Operation<Boolean> original) {
-        var returnSlot = trident.getAttachedOrElse(ModComponents.TRIDENT_SLOT_ATTACHMENT, null);
+        var returnSlot = trident.getAttachedOrElse(ModAttachments.TRIDENT_SLOT_ATTACHMENT, null);
 
         if (returnSlot != null) {
             if (returnSlot == -1) {

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import tritastic.ModComponents;
+import tritastic.ModAttachments;
 import tritastic.entities.EchofangEntity;
 import tritastic.items.DamageTracking;
 
@@ -29,15 +29,15 @@ abstract public class PlayerMixin extends LivingEntity {
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;postHit(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/LivingEntity;)Z"))
     public void damageTracker(Entity target, CallbackInfo ci, @Local(ordinal = 3) float damage, @Local ItemStack item) {
-        if (item.getItem() instanceof DamageTracking) {
-            ((DamageTracking)item.getItem()).afterHit(item, (LivingEntity) target, damage);
+        if (item.getItem() instanceof DamageTracking dtItem) {
+            dtItem.afterHit(item, (LivingEntity) target, damage);
         }
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void awd(CallbackInfo ci) {
-        if (this.isUsingRiptide() && (this.horizontalCollision || this.verticalCollision) && this.getAttachedOrElse(ModComponents.ECHOFANG_RIPTIDE, false)) {
-            this.setAttached(ModComponents.ECHOFANG_RIPTIDE, false);
+        if (this.isUsingRiptide() && (this.horizontalCollision || this.verticalCollision) && this.getAttachedOrElse(ModAttachments.ECHOFANG_RIPTIDE, false)) {
+            this.setAttached(ModAttachments.ECHOFANG_RIPTIDE, false);
             EchofangEntity.explode(2, this.getPos(), this.getWorld(), this);
             this.riptideTicks = 1;
         }
@@ -45,12 +45,12 @@ abstract public class PlayerMixin extends LivingEntity {
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isSpectator()Z"))
     private boolean bar(PlayerEntity instance, Operation<Boolean> original) {
-        return this.hasAttached(ModComponents.ENDERFORK_RIPTIDE) || original.call(instance);
+        return this.hasAttached(ModAttachments.ENDERFORK_RIPTIDE) || original.call(instance);
     }
 
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
     private void foo(double fallDistance, float damagePerDistance, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
-        if (Boolean.FALSE.equals(this.getAttached(ModComponents.ECHOFANG_RIPTIDE))) {
+        if (Boolean.FALSE.equals(this.getAttached(ModAttachments.ECHOFANG_RIPTIDE))) {
             cir.cancel();
         }
     }

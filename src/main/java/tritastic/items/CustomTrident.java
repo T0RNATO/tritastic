@@ -27,8 +27,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tritastic.ModComponents;
+import tritastic.ModAttachments;
 import tritastic.entities.CustomTridentEntity;
+import tritastic.other.ExpandingTooltip;
 
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +63,9 @@ public abstract class CustomTrident<T extends CustomTridentEntity<T>> extends Tr
     public float riptideStrengthMultiplier(float strength) {return strength;}
 
     public static List<MutableText> tooltip(@Nullable String melee, @Nullable String hit, String riptide) {
+        if (!ExpandingTooltip.INSTANCE.isHoldingShift()) {
+            return List.of(Text.literal("[Shift to Expand]").formatted(Formatting.DARK_GRAY));
+        }
         var h = Objects.requireNonNullElse(hit, "None");
         return List.of(
             Text.literal("  Riptide Condition: ").append(Text.literal(riptide).formatted(Formatting.GRAY)),
@@ -94,8 +98,8 @@ public abstract class CustomTrident<T extends CustomTridentEntity<T>> extends Tr
                     T tridentEntity = ProjectileEntity.spawnWithVelocity(newProjectile(), serverWorld, stack, player, 0.0F, 2.5F, 1.0F);
                     var hand = user.getActiveHand();
                     switch (hand) {
-                        case MAIN_HAND -> tridentEntity.setAttached(ModComponents.TRIDENT_SLOT_ATTACHMENT, player.getInventory().getSelectedSlot());
-                        case OFF_HAND -> tridentEntity.setAttached(ModComponents.TRIDENT_SLOT_ATTACHMENT, -1);
+                        case MAIN_HAND -> tridentEntity.setAttached(ModAttachments.TRIDENT_SLOT_ATTACHMENT, player.getInventory().getSelectedSlot());
+                        case OFF_HAND -> tridentEntity.setAttached(ModAttachments.TRIDENT_SLOT_ATTACHMENT, -1);
                     }
                     if (player.isInCreativeMode()) {
                         tridentEntity.pickupType = PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;

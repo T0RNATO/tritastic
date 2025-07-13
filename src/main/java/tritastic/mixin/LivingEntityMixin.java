@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import tritastic.ModAttachments;
 import tritastic.ModComponents;
 
 import java.util.List;
@@ -25,32 +26,34 @@ abstract public class LivingEntityMixin extends Entity {
         super(type, world);
     }
 
-//    @Inject(method = "tickRiptide", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;riptideStack:Lnet/minecraft/item/ItemStack;"))
-//    private void awd(Box a, Box b, CallbackInfo ci) {
-//        this.removeAttached(ModComponents.ECHOFANG_RIPTIDE);
-//        this.removeAttached(ModComponents.ENDERFORK_RIPTIDE);
-//    }
-
     @Inject(method = "tickRiptide", at = @At("TAIL"))
     private void awd(Box a, Box b, CallbackInfo ci) {
         if (this.riptideTicks <= 0) {
-            this.removeAttached(ModComponents.ECHOFANG_RIPTIDE);
-            if (this.hasAttached(ModComponents.ENDERFORK_RIPTIDE)) {
-                this.removeAttached(ModComponents.ENDERFORK_RIPTIDE);
+            this.removeAttached(ModAttachments.ECHOFANG_RIPTIDE);
+            if (this.hasAttached(ModAttachments.ENDERFORK_RIPTIDE)) {
+                this.removeAttached(ModAttachments.ENDERFORK_RIPTIDE);
                 this.setNoGravity(false);
             }
         }
     }
 
     @WrapOperation(method = "tickRiptide", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;)Ljava/util/List;"))
-    private List<Entity> foo(World instance, Entity entity, Box box, Operation<List<Entity>> original) {
-        var enderfork = this.hasAttached(ModComponents.ENDERFORK_RIPTIDE);
-        if (this.hasAttached(ModComponents.ECHOFANG_RIPTIDE) || enderfork) {
+    private List<Entity> foo(World world, Entity entity, Box box, Operation<List<Entity>> original) {
+        var enderfork = this.hasAttached(ModAttachments.ENDERFORK_RIPTIDE);
+        if (this.hasAttached(ModAttachments.ECHOFANG_RIPTIDE) || enderfork) {
             if (enderfork) {
-                this.move(MovementType.PLAYER, this.getAttached(ModComponents.ENDERFORK_RIPTIDE));
+                var attachment = this.getAttached(ModAttachments.ENDERFORK_RIPTIDE);
+                this.move(MovementType.PLAYER, attachment.direction());
+                if (!attachment.hasPassedThroughBlocks()) {
+                    if (!world.getBlockState(this.getBlockPos()).isAir()) {
+                        this.setAttached(ModAttachments.ENDERFORK_RIPTIDE, attachment.enterBlocks());
+                    }
+                } else if (world.getBlockState(this.getBlockPos()).isAir() && world.getBlockState(this.getBlockPos().up()).isAir()) {
+                    this.riptideTicks = 0;
+                }
             }
             return List.of();
         }
-        return original.call(instance, entity, box);
+        return original.call(world, entity, box);
     }
 }
