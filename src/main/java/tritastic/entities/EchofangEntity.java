@@ -27,9 +27,13 @@ public class EchofangEntity extends CustomTridentEntity<EchofangEntity> {
     @Override
     public void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        var explosion_power = this.getItemStack().getOrDefault(ModComponents.SCULK_CHARGE, 0) / 175;
+        var explosion_power = this.getItemStack().getOrDefault(ModComponents.SCULK_CHARGE, 0) / 150;
         var pos = this.getPos();
         EchofangEntity.explode(explosion_power, pos, this.getWorld(), this);
+
+        var new_stack = this.getItemStack().copy();
+        new_stack.set(ModComponents.SCULK_CHARGE, 0);
+        this.setStack(new_stack);
     }
 
     public static void explode(float power, Vec3d pos, World world, Entity entity) {

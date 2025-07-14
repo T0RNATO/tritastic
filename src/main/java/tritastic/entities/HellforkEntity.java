@@ -7,7 +7,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import tritastic.ModEntities;
-import tritastic.mixin.TridentEntityAccessor;
+import tritastic.other.TridentEntityDuck;
 
 public class HellforkEntity extends CustomTridentEntity<HellforkEntity> {
     public HellforkEntity(EntityType<? extends HellforkEntity> type, World world) {
@@ -27,7 +27,7 @@ public class HellforkEntity extends CustomTridentEntity<HellforkEntity> {
     @Override
     public void tick() {
         super.tick();
-        if (!((TridentEntityAccessor) this).getDealtDamage()) {
+        if (!((TridentEntityDuck) this).tritastic$getDealtDamage()) {
             var pos = this.getPos();
             this.getWorld().addParticleClient(ParticleTypes.FLAME, pos.x, pos.y, pos.z, 0, 0, 0);
         }

@@ -35,6 +35,6 @@ public class Nightfork extends CustomTrident<NightforkEntity> {
 
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
-        CustomTrident.tooltip(null, "Applies blindness", "Nighttime").forEach(tooltip);
+        CustomTrident.tooltip("nightfork").forEach(tooltip);
     }
 }

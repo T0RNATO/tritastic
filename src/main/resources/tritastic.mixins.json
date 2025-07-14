@@ -3,9 +3,9 @@
     "package": "tritastic.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
+        "EntityMixin",
         "LivingEntityMixin",
         "PlayerMixin",
-        "TridentEntityAccessor",
         "TridentEntityMixin",
         "TridentItemMixin"
     ],

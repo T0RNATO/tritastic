@@ -17,7 +17,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import tritastic.ModAttachments;
-import tritastic.ModComponents;
 import tritastic.Tritastic;
 import tritastic.entities.EnderforkEntity;
 
@@ -40,8 +39,7 @@ public class Enderfork extends CustomTrident<EnderforkEntity> {
 
     @Override
     public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
-        CustomTrident.tooltip(null, "Spawn an endermite", "None. Ignores blocks and gravity.")
-                .forEach(tooltip);
+        CustomTrident.tooltip("enderfork").forEach(tooltip);
     }
 
     @Override
@@ -52,5 +50,8 @@ public class Enderfork extends CustomTrident<EnderforkEntity> {
         player.setNoGravity(true);
         RegistryEntry<SoundEvent> registryEntry = EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.TRIDENT_SOUND).orElse(SoundEvents.ITEM_TRIDENT_THROW);
         world.playSoundFromEntity(null, player, registryEntry.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
+        if (world.isClient) {
+            player.sendMessage(Text.literal("Sneak to exit"), true);
+        }
     }
 }

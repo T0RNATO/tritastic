@@ -21,11 +21,11 @@ public abstract class ItemRenderingMixin {
 
     @Inject(method = "drawItemBar", at = @At("TAIL"))
     private void awd(ItemStack stack, int x, int y, CallbackInfo ci) {
-        if (stack.contains(ModComponents.SCULK_CHARGE)) {
+        if (stack.getOrDefault(ModComponents.SCULK_CHARGE, 0) > 0) {
             var component = stack.get(ModComponents.SCULK_CHARGE);
-            int i = x + 2;
-            int j = y + 13;
-            this.fill(RenderPipelines.GUI, i, j, i + MathHelper.floor(component.floatValue() / Echofang.MAX_CHARGE * 13), j + 2, ColorHelper.fullAlpha(Colors.CYAN));
-        }
+            var x1 = x + 2;
+            var y1 = y + 15;
+            this.fill(RenderPipelines.GUI, x1, y1, x1 + 13, y1 + 2, -16777216);
+            this.fill(RenderPipelines.GUI, x1, y1, x1 + MathHelper.floor(component.floatValue() / Echofang.MAX_CHARGE * 13), y1 + 1, ColorHelper.fullAlpha(Colors.CYAN));}
     }
 }

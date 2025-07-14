@@ -36,8 +36,7 @@ public class Echofang extends CustomTrident<EchofangEntity> implements DamageTra
 
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
-        CustomTrident.tooltip("Charges up stored sculk explosion", "Detonates stored sculk explosion", "Must face towards the ground. Detonates a free sculk explosion on impact and cancels fall damage")
-                .forEach(tooltip);
+        CustomTrident.tooltip("echofang").forEach(tooltip);
     }
 
     @Override

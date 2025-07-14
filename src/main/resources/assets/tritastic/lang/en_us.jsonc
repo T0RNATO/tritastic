@@ -1,0 +1,22 @@
+{
+    "tooltip.tritastic.hellfork.melee": "Applies fire (TODO)",
+    "tooltip.tritastic.hellfork.onhit": "Applies fire",
+    "tooltip.tritastic.hellfork.riptide": "While on fire or in the nether",
+
+    "tooltip.tritastic.enderfork.onhit": "Spawn an endermite",
+    "tooltip.tritastic.enderfork.riptide": "None. Ignores blocks and gravity",
+
+    "tooltip.tritastic.echofang.melee": "Charges up stored sculk explosion",
+    "tooltip.tritastic.echofang.onhit": "Detonates stored sculk explosion",
+    "tooltip.tritastic.echofang.riptide": "Must face towards the ground. Detonates a free sculk explosion, cancelling fall damage",
+
+    "tooltip.tritastic.nightfork.melee": "Applies blindness (TODO)",
+    "tooltip.tritastic.nightfork.onhit": "Applies blindness",
+    "tooltip.tritastic.nightfork.riptide": "Nighttime",
+
+    "tooltip.tritastic.soulfork.melee": "Applies wither (TODO)",
+    "tooltip.tritastic.soulfork.onhit": "Applies wither",
+    "tooltip.tritastic.soulfork.riptide": "Costs 2.5 hearts",
+
+    "tooltip.tritastic.trident.riptide": "Whilst in water or rain"
+}

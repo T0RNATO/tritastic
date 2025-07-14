@@ -26,13 +26,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import tritastic.ModAttachments;
 import tritastic.entities.CustomTridentEntity;
 import tritastic.other.ExpandingTooltip;
 
 import java.util.List;
-import java.util.Objects;
 
 public abstract class CustomTrident<T extends CustomTridentEntity<T>> extends TridentItem {
     public CustomTrident(Item.Settings settings, Identifier entityTexture) {
@@ -62,15 +60,18 @@ public abstract class CustomTrident<T extends CustomTridentEntity<T>> extends Tr
     public void use(ItemStack stack, World world, PlayerEntity user, float riptide_strength) { }
     public float riptideStrengthMultiplier(float strength) {return strength;}
 
-    public static List<MutableText> tooltip(@Nullable String melee, @Nullable String hit, String riptide) {
+    private static MutableText tooltipEntry(String key) {
+        return Text.translatableWithFallback(key, "None").formatted(Formatting.GRAY);
+    }
+
+    public static List<MutableText> tooltip(String translationKey) {
         if (!ExpandingTooltip.INSTANCE.isHoldingShift()) {
             return List.of(Text.literal("[Shift to Expand]").formatted(Formatting.DARK_GRAY));
         }
-        var h = Objects.requireNonNullElse(hit, "None");
         return List.of(
-            Text.literal("  Riptide Condition: ").append(Text.literal(riptide).formatted(Formatting.GRAY)),
-            Text.literal("  Hit Effect: ").append(Text.literal(h).formatted(Formatting.GRAY)),
-            Text.literal("  Melee Effect: ").append(Text.literal(Objects.requireNonNullElse(melee, h)).formatted(Formatting.GRAY))
+            Text.literal("  Riptide Condition: ").append(tooltipEntry("tooltip.tritastic." + translationKey + ".riptide")),
+            Text.literal("  Hit Effect: ").append(tooltipEntry("tooltip.tritastic." + translationKey + ".onhit")),
+            Text.literal("  Melee Effect: ").append(tooltipEntry("tooltip.tritastic." + translationKey + ".melee"))
         );
     }
 

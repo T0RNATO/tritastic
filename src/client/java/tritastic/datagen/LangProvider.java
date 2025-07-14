@@ -10,7 +10,10 @@ import java.util.concurrent.CompletableFuture;
 public class LangProvider extends FabricLanguageProvider {
     protected LangProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);
+        this.dataOutput = dataOutput;
     }
+
+    private final FabricDataOutput dataOutput;
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
@@ -21,13 +24,12 @@ public class LangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.ENDERFORK, "Enderfork");
 
         translationBuilder.add(ModItems.GUARDIAN_SPIKE, "Guardian Spike");
-//        try {
-//            var existingFilePath = dataOutput.getModContainer().findPath("assets/mymod/lang/en_us.existing.json");
-//            if (existingFilePath.isPresent()) {
-//                translationBuilder.add(existingFilePath.get());
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException("Failed to add existing language file!", e);
-//        }
+
+        try {
+            var existingFilePath = dataOutput.getModContainer().findPath("assets/tritastic/lang/en_us.jsonc").get();
+            translationBuilder.add(existingFilePath);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to add existing language file!", e);
+        }
     }
 }

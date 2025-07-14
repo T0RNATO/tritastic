@@ -8,8 +8,8 @@
 		"TorNato"
 	],
 	"contact": {
-		"homepage": "",
-		"sources": ""
+		"homepage": "https://modrinth.com/mod/tritastic",
+		"sources": "https://github.com/T0RNATO/tritastic"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/tritastic/icon.png",

@@ -1,7 +1,10 @@
 package tritastic;
 
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroups;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -62,6 +65,9 @@ public class ModItems {
     public static final Item GUARDIAN_SPIKE = register(Item::new, new Item.Settings(), "guardian_spike");
 
     public static void initialise() {
-
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(group ->
+                group.addAfter(Items.TRIDENT, ENDERFORK, ECHOFANG, NIGHTFORK, SOULFORK, HELLFORK));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(group ->
+                group.addAfter(Items.SPIDER_EYE, GUARDIAN_SPIKE));
     }
 }

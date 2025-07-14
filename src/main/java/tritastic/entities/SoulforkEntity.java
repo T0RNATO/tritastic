@@ -9,7 +9,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import tritastic.ModEntities;
-import tritastic.mixin.TridentEntityAccessor;
+import tritastic.other.TridentEntityDuck;
 
 public class SoulforkEntity extends CustomTridentEntity<SoulforkEntity> {
     public SoulforkEntity(EntityType<? extends SoulforkEntity> entityType, World world) {
@@ -29,7 +29,7 @@ public class SoulforkEntity extends CustomTridentEntity<SoulforkEntity> {
     @Override
     public void tick() {
         super.tick();
-        if (!((TridentEntityAccessor) this).getDealtDamage()) {
+        if (!((TridentEntityDuck) this).tritastic$getDealtDamage()) {
             var pos = this.getPos();
             this.getWorld().addParticleClient(ParticleTypes.SOUL, pos.x, pos.y, pos.z, 0, 0, 0);
         }

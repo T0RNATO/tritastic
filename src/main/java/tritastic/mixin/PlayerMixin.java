@@ -35,7 +35,7 @@ abstract public class PlayerMixin extends LivingEntity {
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void awd(CallbackInfo ci) {
+    private void echofangExplosion(CallbackInfo ci) {
         if (this.isUsingRiptide() && (this.horizontalCollision || this.verticalCollision) && this.getAttachedOrElse(ModAttachments.ECHOFANG_RIPTIDE, false)) {
             this.setAttached(ModAttachments.ECHOFANG_RIPTIDE, false);
             EchofangEntity.explode(2, this.getPos(), this.getWorld(), this);
@@ -44,12 +44,12 @@ abstract public class PlayerMixin extends LivingEntity {
     }
 
     @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;isSpectator()Z"))
-    private boolean bar(PlayerEntity instance, Operation<Boolean> original) {
+    private boolean noClipWithEnderfork(PlayerEntity instance, Operation<Boolean> original) {
         return this.hasAttached(ModAttachments.ENDERFORK_RIPTIDE) || original.call(instance);
     }
 
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
-    private void foo(double fallDistance, float damagePerDistance, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    private void cancelEchofangFallDamage(double fallDistance, float damagePerDistance, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (Boolean.FALSE.equals(this.getAttached(ModAttachments.ECHOFANG_RIPTIDE))) {
             cir.cancel();
         }

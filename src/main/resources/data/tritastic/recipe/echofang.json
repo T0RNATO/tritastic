@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:trident",
+  "addition": "minecraft:echo_shard",
+  "result": {
+    "id": "tritastic:echofang"
+  }
+}

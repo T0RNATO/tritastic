@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import tritastic.ModAttachments;
-import tritastic.ModComponents;
 
 import java.util.List;
 
@@ -27,29 +27,38 @@ abstract public class LivingEntityMixin extends Entity {
     }
 
     @Inject(method = "tickRiptide", at = @At("TAIL"))
-    private void awd(Box a, Box b, CallbackInfo ci) {
+    private void removeAttachments(Box a, Box b, CallbackInfo ci) {
         if (this.riptideTicks <= 0) {
             this.removeAttached(ModAttachments.ECHOFANG_RIPTIDE);
             if (this.hasAttached(ModAttachments.ENDERFORK_RIPTIDE)) {
+                if (!this.isSneaking()) {
+                    this.setVelocity(this.getAttached(ModAttachments.ENDERFORK_RIPTIDE).direction().multiply(0.5));
+                }
                 this.removeAttached(ModAttachments.ENDERFORK_RIPTIDE);
-                this.setNoGravity(false);
+                this.setNoGravity(false); // todo: fix this not running if the player logs out mid-riptide
             }
         }
     }
 
     @WrapOperation(method = "tickRiptide", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;)Ljava/util/List;"))
-    private List<Entity> foo(World world, Entity entity, Box box, Operation<List<Entity>> original) {
+    private List<Entity> bypassEntityCheck(World world, Entity entity, Box box, Operation<List<Entity>> original) {
         var enderfork = this.hasAttached(ModAttachments.ENDERFORK_RIPTIDE);
         if (this.hasAttached(ModAttachments.ECHOFANG_RIPTIDE) || enderfork) {
             if (enderfork) {
                 var attachment = this.getAttached(ModAttachments.ENDERFORK_RIPTIDE);
                 this.move(MovementType.PLAYER, attachment.direction());
-                if (!attachment.hasPassedThroughBlocks()) {
-                    if (!world.getBlockState(this.getBlockPos()).isAir()) {
-                        this.setAttached(ModAttachments.ENDERFORK_RIPTIDE, attachment.enterBlocks());
+
+                var pos = BlockPos.ofFloored(this.getPos().add(0, 0.5, 0));
+                var isEmpty = world.getBlockState(pos).getCollisionShape(world, pos).isEmpty();
+
+                if (isEmpty) {
+                    if (this.isSneaking() || attachment.hasPassedThroughBlocks()) {
+                        this.riptideTicks = 0;
+                        this.setPosition(this.getPos().add(0, 0.5, 0));
                     }
-                } else if (world.getBlockState(this.getBlockPos()).isAir() && world.getBlockState(this.getBlockPos().up()).isAir()) {
-                    this.riptideTicks = 0;
+                } else if (!attachment.hasPassedThroughBlocks()) {
+                    // set flag to exit next time in air
+                    this.setAttached(ModAttachments.ENDERFORK_RIPTIDE, attachment.enterBlocks());
                 }
             }
             return List.of();

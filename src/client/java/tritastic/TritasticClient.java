@@ -15,7 +15,7 @@ public class TritasticClient implements ClientModInitializer {
         ModRenderers.initialise();
         ItemTooltipCallback.EVENT.register((itemStack, tooltipContext, tooltipType, list) -> {
             if (itemStack.getItem().equals(Items.TRIDENT)) {
-                list.addAll(1, CustomTrident.tooltip(null, null, "Whilst in water or rain"));
+                list.addAll(1, CustomTrident.tooltip("trident"));
             }
         });
 

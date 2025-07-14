@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smithing_transform",
+  "base": "minecraft:trident",
+  "addition": "minecraft:dragon_breath",
+  "result": {
+    "id": "tritastic:enderfork"
+  }
+}

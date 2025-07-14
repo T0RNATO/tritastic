@@ -39,6 +39,6 @@ public class Soulfork extends CustomTrident<SoulforkEntity> {
 
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
-        CustomTrident.tooltip(null, "Applies wither", "None. Costs 2.5 hearts").forEach(tooltip);
+        CustomTrident.tooltip("soulfork").forEach(tooltip);
     }
 }

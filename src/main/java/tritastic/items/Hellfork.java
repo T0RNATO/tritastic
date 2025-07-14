@@ -31,6 +31,6 @@ public class Hellfork extends CustomTrident<HellforkEntity> {
 
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
-        CustomTrident.tooltip(null, "Applies fire", "While on fire or in the nether").forEach(tooltip);
+        CustomTrident.tooltip("hellfork").forEach(tooltip);
     }
 }

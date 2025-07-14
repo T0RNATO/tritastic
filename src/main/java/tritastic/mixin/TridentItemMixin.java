@@ -9,12 +9,11 @@ import net.minecraft.item.TridentItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import tritastic.ModAttachments;
-import tritastic.ModComponents;
 
 @Mixin(TridentItem.class)
 public class TridentItemMixin {
     @ModifyExpressionValue(method = "onStoppedUsing", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileEntity;spawnWithVelocity(Lnet/minecraft/entity/projectile/ProjectileEntity$ProjectileCreator;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/LivingEntity;FFF)Lnet/minecraft/entity/projectile/ProjectileEntity;"))
-    private ProjectileEntity awd(ProjectileEntity original, @Local(argsOnly = true) LivingEntity user) {
+    private ProjectileEntity storeThrownSlot(ProjectileEntity original, @Local(argsOnly = true) LivingEntity user) {
         var hand = user.getActiveHand();
         if (user instanceof PlayerEntity player) {
             switch (hand) {
