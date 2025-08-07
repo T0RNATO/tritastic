@@ -2,7 +2,7 @@ package tritastic.entities;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.EndermiteEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
@@ -17,9 +17,9 @@ public class EnderforkEntity extends CustomTridentEntity<EnderforkEntity> {
     @Override
     public void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        var world = entityHitResult.getEntity().getWorld();
-        if (world instanceof ServerWorld server) {
-            server.spawnEntity(new EndermiteEntity(EntityType.ENDERMITE, server));
+        var entity = entityHitResult.getEntity();
+        if (entity.getWorld() instanceof ServerWorld server) {
+            EntityType.ENDERMITE.spawn(server, entity.getBlockPos(), SpawnReason.MOB_SUMMONED);
         }
     }
 

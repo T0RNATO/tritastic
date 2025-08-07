@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import tritastic.ModEntities;
+import tritastic.items.Nightfork;
 
 public class NightforkEntity extends CustomTridentEntity<NightforkEntity> {
     public NightforkEntity(World world, LivingEntity owner, ItemStack stack) {
@@ -21,6 +22,6 @@ public class NightforkEntity extends CustomTridentEntity<NightforkEntity> {
     @Override
     public void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        ((LivingEntity) entityHitResult.getEntity()).addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 35, 1), this.getOwner());
+        ((LivingEntity) entityHitResult.getEntity()).addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, Nightfork.BLINDNESS_DURATION, 1), this.getOwner());
     }
 }

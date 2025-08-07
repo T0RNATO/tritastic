@@ -1,6 +1,9 @@
 package tritastic.items;
 
 import net.minecraft.component.type.TooltipDisplayComponent;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
@@ -17,6 +20,7 @@ public class Nightfork extends CustomTrident<NightforkEntity> {
     public Nightfork(Item.Settings settings) {
         super(settings, Tritastic.id("textures/entity/nightfork.png"));
     }
+    public static final int BLINDNESS_DURATION = 60;
 
     @Override
     public boolean riptideCondition(PlayerEntity player, ItemStack item) {
@@ -36,5 +40,11 @@ public class Nightfork extends CustomTrident<NightforkEntity> {
     @Override
     public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
         CustomTrident.tooltip("nightfork").forEach(tooltip);
+    }
+
+    @Override
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        super.postHit(stack, target, attacker);
+        target.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, Nightfork.BLINDNESS_DURATION, 1), attacker);
     }
 }

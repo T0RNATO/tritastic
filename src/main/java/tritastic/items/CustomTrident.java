@@ -150,4 +150,9 @@ public abstract class CustomTrident<T extends CustomTridentEntity<T>> extends Tr
             return ActionResult.CONSUME;
         }
     }
+
+    @Override
+    public void postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        super.postHit(stack, target, attacker);
+    }
 }

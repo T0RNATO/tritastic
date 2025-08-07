@@ -9,6 +9,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import tritastic.ModEntities;
+import tritastic.items.Soulfork;
 import tritastic.other.TridentEntityDuck;
 
 public class SoulforkEntity extends CustomTridentEntity<SoulforkEntity> {
@@ -23,7 +24,7 @@ public class SoulforkEntity extends CustomTridentEntity<SoulforkEntity> {
     @Override
     public void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        ((LivingEntity) entityHitResult.getEntity()).addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 100, 1), this.getOwner());
+        ((LivingEntity) entityHitResult.getEntity()).addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, Soulfork.WITHER_DURATION, 1), this.getOwner());
     }
 
     @Override

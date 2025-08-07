@@ -2,6 +2,7 @@ package tritastic;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.WeaponComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
@@ -27,7 +28,8 @@ public class ModItems {
         return new Item.Settings()
                 .rarity(Rarity.EPIC)
                 .maxDamage(250)
-                .enchantable(1);
+                .enchantable(1)
+                .component(DataComponentTypes.WEAPON, new WeaponComponent(1));
     }
 
     public static final Item HELLFORK = register(Hellfork::new, settings()
@@ -67,6 +69,7 @@ public class ModItems {
     public static void initialise() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(group ->
                 group.addAfter(Items.TRIDENT, ENDERFORK, ECHOFANG, NIGHTFORK, SOULFORK, HELLFORK));
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(group ->
                 group.addAfter(Items.SPIDER_EYE, GUARDIAN_SPIKE));
     }

@@ -7,6 +7,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import tritastic.ModEntities;
+import tritastic.items.Hellfork;
 import tritastic.other.TridentEntityDuck;
 
 public class HellforkEntity extends CustomTridentEntity<HellforkEntity> {
@@ -21,7 +22,7 @@ public class HellforkEntity extends CustomTridentEntity<HellforkEntity> {
     @Override
     public void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-        entityHitResult.getEntity().setOnFireFor(6);
+        entityHitResult.getEntity().setOnFireFor(Hellfork.FIRE_DURATION);
     }
 
     @Override
