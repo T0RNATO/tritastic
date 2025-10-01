@@ -29,8 +29,8 @@ public class HellforkEntity extends CustomTridentEntity<HellforkEntity> {
     public void tick() {
         super.tick();
         if (!((TridentEntityDuck) this).tritastic$getDealtDamage()) {
-            var pos = this.getPos();
-            this.getWorld().addParticleClient(ParticleTypes.FLAME, pos.x, pos.y, pos.z, 0, 0, 0);
+            var pos = this.getEntityPos();
+            this.getEntityWorld().addParticleClient(ParticleTypes.FLAME, pos.x, pos.y, pos.z, 0, 0, 0);
         }
     }
 }

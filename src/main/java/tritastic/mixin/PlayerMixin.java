@@ -38,7 +38,7 @@ abstract public class PlayerMixin extends LivingEntity {
     private void echofangExplosion(CallbackInfo ci) {
         if (this.isUsingRiptide() && (this.horizontalCollision || this.verticalCollision) && this.getAttachedOrElse(ModAttachments.ECHOFANG_RIPTIDE, false)) {
             this.setAttached(ModAttachments.ECHOFANG_RIPTIDE, false);
-            EchofangEntity.explode(2, this.getPos(), this.getWorld(), this);
+            EchofangEntity.explode(2, this.getEntityPos(), this.getEntityWorld(), this);
             this.riptideTicks = 1;
         }
     }

@@ -23,7 +23,7 @@ public class Hellfork extends CustomTrident<HellforkEntity> {
 
     @Override
     public boolean riptideCondition(PlayerEntity player, ItemStack item) {
-        return player.isOnFire() || player.getWorld().getRegistryKey().equals(World.NETHER);
+        return player.isOnFire() || player.getEntityWorld().getRegistryKey().equals(World.NETHER);
     }
 
     @Override
