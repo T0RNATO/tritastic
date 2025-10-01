@@ -14,13 +14,12 @@ public class ModEntities {
         var key = RegistryKey.of(RegistryKeys.ENTITY_TYPE, Tritastic.id(id));
 
         var builder = EntityType.Builder.create(factory, SpawnGroup.MISC)
-                .dropsNothing()
                 .dimensions(0.5F, 0.5F)
                 .eyeHeight(0.13F)
                 .maxTrackingRange(4)
                 .trackingTickInterval(20);
 
-        return Registry.register(Registries.ENTITY_TYPE, key, builder.build(key));
+        return Registry.register(Registries.ENTITY_TYPE, key, builder.build(id));
     }
 
     public static final EntityType<HellforkEntity> HELLFORK = register("hellfork", HellforkEntity::new);

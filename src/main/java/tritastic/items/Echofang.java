@@ -1,9 +1,7 @@
 package tritastic.items;
 
-import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
@@ -15,7 +13,7 @@ import tritastic.ModComponents;
 import tritastic.Tritastic;
 import tritastic.entities.EchofangEntity;
 
-import java.util.function.Consumer;
+import java.util.List;
 
 public class Echofang extends CustomTrident<EchofangEntity> implements DamageTracking {
     public static int MAX_CHARGE = 500;
@@ -30,13 +28,13 @@ public class Echofang extends CustomTrident<EchofangEntity> implements DamageTra
     }
 
     @Override
-    public ProjectileEntity.@NotNull ProjectileCreator<EchofangEntity> newProjectile() {
+    public @NotNull TridentSupplier<EchofangEntity> newProjectile() {
         return EchofangEntity::new;
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
-        CustomTrident.tooltip("echofang").forEach(tooltip);
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        tooltip.addAll(CustomTrident.tooltip("echofang"));
     }
 
     @Override

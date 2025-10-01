@@ -27,7 +27,7 @@ abstract public class PlayerMixin extends LivingEntity {
         super(entityType, world);
     }
 
-    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;postHit(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/LivingEntity;)Z"))
+    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;postHit(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/player/PlayerEntity;)Z"))
     public void damageTracker(Entity target, CallbackInfo ci, @Local(ordinal = 3) float damage, @Local ItemStack item) {
         if (item.getItem() instanceof DamageTracking dtItem) {
             dtItem.afterHit(item, (LivingEntity) target, damage);
@@ -49,7 +49,7 @@ abstract public class PlayerMixin extends LivingEntity {
     }
 
     @Inject(method = "handleFallDamage", at = @At("HEAD"), cancellable = true)
-    private void cancelEchofangFallDamage(double fallDistance, float damagePerDistance, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+    private void cancelEchofangFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
         if (Boolean.FALSE.equals(this.getAttached(ModAttachments.ECHOFANG_RIPTIDE))) {
             cir.cancel();
         }

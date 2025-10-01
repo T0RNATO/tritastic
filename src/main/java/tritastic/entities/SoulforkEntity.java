@@ -31,7 +31,7 @@ public class SoulforkEntity extends CustomTridentEntity<SoulforkEntity> {
         super.tick();
         if (!((TridentEntityDuck) this).tritastic$getDealtDamage()) {
             var pos = this.getPos();
-            this.getWorld().addParticleClient(ParticleTypes.SOUL, pos.x, pos.y, pos.z, 0, 0, 0);
+            this.getWorld().addParticle(ParticleTypes.SOUL, pos.x, pos.y, pos.z, 0, 0, 0);
         }
     }
 }

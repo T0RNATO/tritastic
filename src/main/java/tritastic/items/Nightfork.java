@@ -1,8 +1,6 @@
 package tritastic.items;
 
-import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
@@ -11,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import tritastic.entities.NightforkEntity;
 import tritastic.Tritastic;
 
-import java.util.function.Consumer;
+import java.util.List;
 
 public class Nightfork extends CustomTrident<NightforkEntity> {
     public Nightfork(Item.Settings settings) {
@@ -29,12 +27,12 @@ public class Nightfork extends CustomTrident<NightforkEntity> {
     }
 
     @Override
-    public ProjectileEntity.@NotNull ProjectileCreator<NightforkEntity> newProjectile() {
+    public @NotNull TridentSupplier<NightforkEntity> newProjectile() {
         return NightforkEntity::new;
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, Item.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltip, TooltipType type) {
-        CustomTrident.tooltip("nightfork").forEach(tooltip);
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
+        tooltip.addAll(CustomTrident.tooltip("nightfork"));
     }
 }
