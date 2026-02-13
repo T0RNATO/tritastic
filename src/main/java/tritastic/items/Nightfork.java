@@ -24,7 +24,7 @@ public class Nightfork extends CustomTrident<NightforkEntity> {
 
     @Override
     public boolean riptideCondition(PlayerEntity player, ItemStack item) {
-        return player.getWorld().isNight();
+        return player.getEntityWorld().isNight();
     }
 
     @Override

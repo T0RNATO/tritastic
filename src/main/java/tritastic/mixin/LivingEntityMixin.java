@@ -18,6 +18,7 @@ import tritastic.ModAttachments;
 
 import java.util.List;
 
+@SuppressWarnings("UnstableApiUsage")
 @Mixin(LivingEntity.class)
 abstract public class LivingEntityMixin extends Entity {
     @Shadow protected int riptideTicks;
@@ -48,13 +49,13 @@ abstract public class LivingEntityMixin extends Entity {
                 var attachment = this.getAttached(ModAttachments.ENDERFORK_RIPTIDE);
                 this.move(MovementType.PLAYER, attachment.direction());
 
-                var pos = BlockPos.ofFloored(this.getPos().add(0, 0.5, 0));
+                var pos = BlockPos.ofFloored(this.getEntityPos().add(0, 0.5, 0));
                 var isEmpty = world.getBlockState(pos).getCollisionShape(world, pos).isEmpty();
 
                 if (isEmpty) {
                     if (this.isSneaking() || attachment.hasPassedThroughBlocks()) {
                         this.riptideTicks = 0;
-                        this.setPosition(this.getPos().add(0, 0.5, 0));
+                        this.setPosition(this.getEntityPos().add(0, 0.5, 0));
                     }
                 } else if (!attachment.hasPassedThroughBlocks()) {
                     // set flag to exit next time in air

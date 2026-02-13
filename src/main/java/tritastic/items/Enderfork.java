@@ -50,7 +50,7 @@ public class Enderfork extends CustomTrident<EnderforkEntity> {
         player.setNoGravity(true);
         RegistryEntry<SoundEvent> registryEntry = EnchantmentHelper.getEffect(stack, EnchantmentEffectComponentTypes.TRIDENT_SOUND).orElse(SoundEvents.ITEM_TRIDENT_THROW);
         world.playSoundFromEntity(null, player, registryEntry.value(), SoundCategory.PLAYERS, 1.0F, 1.0F);
-        if (world.isClient) {
+        if (world.isClient()) {
             player.sendMessage(Text.literal("Sneak to exit"), true);
         }
     }

@@ -10,7 +10,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,14 +19,14 @@ import tritastic.ModAttachments;
 import tritastic.entities.EchofangEntity;
 import tritastic.items.DamageTracking;
 
-@Debug(export = true)
+@SuppressWarnings("UnstableApiUsage")
 @Mixin(PlayerEntity.class)
 abstract public class PlayerMixin extends LivingEntity {
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;postHit(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/entity/LivingEntity;)Z"))
+    @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;sidedDamage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
     public void damageTracker(Entity target, CallbackInfo ci, @Local(ordinal = 3) float damage, @Local ItemStack item) {
         if (item.getItem() instanceof DamageTracking dtItem) {
             dtItem.afterHit(item, (LivingEntity) target, damage);
@@ -38,7 +37,7 @@ abstract public class PlayerMixin extends LivingEntity {
     private void echofangExplosion(CallbackInfo ci) {
         if (this.isUsingRiptide() && (this.horizontalCollision || this.verticalCollision) && this.getAttachedOrElse(ModAttachments.ECHOFANG_RIPTIDE, false)) {
             this.setAttached(ModAttachments.ECHOFANG_RIPTIDE, false);
-            EchofangEntity.explode(2, this.getPos(), this.getWorld(), this);
+            EchofangEntity.explode(2, this.getEntityPos(), this.getEntityWorld(), this);
             this.riptideTicks = 1;
         }
     }

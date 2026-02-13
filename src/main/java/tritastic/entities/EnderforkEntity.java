@@ -18,7 +18,7 @@ public class EnderforkEntity extends CustomTridentEntity<EnderforkEntity> {
     public void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
         var entity = entityHitResult.getEntity();
-        if (entity.getWorld() instanceof ServerWorld server) {
+        if (entity.getEntityWorld() instanceof ServerWorld server) {
             EntityType.ENDERMITE.spawn(server, entity.getBlockPos(), SpawnReason.MOB_SUMMONED);
         }
     }

@@ -1,21 +1,24 @@
 package tritastic.render;
 
 import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.TridentEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.render.entity.model.TridentEntityModel;
 import net.minecraft.client.render.entity.state.TridentEntityRenderState;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.render.state.CameraRenderState;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Unit;
 import net.minecraft.util.math.RotationAxis;
 import tritastic.Tritastic;
 
-public class CustomTridentEntityRenderer extends EntityRenderer<TridentEntity, TridentEntityRenderState> {
+import java.util.List;
+
+public class CustomTridentEntityRenderer extends TridentEntityRenderer {
     private final Identifier TEXTURE;
     private final TridentEntityModel model;
 
@@ -25,26 +28,17 @@ public class CustomTridentEntityRenderer extends EntityRenderer<TridentEntity, T
         this.model = new TridentEntityModel(context.getPart(EntityModelLayers.TRIDENT));
     }
 
-    public void render(TridentEntityRenderState tridentEntityRenderState, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
+    @Override
+    public void render(TridentEntityRenderState tridentEntityRenderState, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState) {
         matrixStack.push();
         matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(tridentEntityRenderState.yaw - 90.0F));
         matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(tridentEntityRenderState.pitch + 90.0F));
-        VertexConsumer vertexConsumer = ItemRenderer.getItemGlintConsumer(
-                vertexConsumerProvider, this.model.getLayer(TEXTURE), false, tridentEntityRenderState.enchanted
-        );
-        this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+        List<RenderLayer> list = ItemRenderer.getGlintRenderLayers(this.model.getLayer(TEXTURE), false, tridentEntityRenderState.enchanted);
+
+        for(int i = 0; i < list.size(); ++i) {
+            orderedRenderCommandQueue.getBatchingQueue(i).submitModel(this.model, Unit.INSTANCE, matrixStack, list.get(i), tridentEntityRenderState.light, OverlayTexture.DEFAULT_UV, -1, null, tridentEntityRenderState.outlineColor, null);
+        }
+
         matrixStack.pop();
-        super.render(tridentEntityRenderState, matrixStack, vertexConsumerProvider, i);
-    }
-
-    public TridentEntityRenderState createRenderState() {
-        return new TridentEntityRenderState();
-    }
-
-    public void updateRenderState(TridentEntity tridentEntity, TridentEntityRenderState tridentEntityRenderState, float f) {
-        super.updateRenderState(tridentEntity, tridentEntityRenderState, f);
-        tridentEntityRenderState.yaw = tridentEntity.getLerpedYaw(f);
-        tridentEntityRenderState.pitch = tridentEntity.getLerpedPitch(f);
-        tridentEntityRenderState.enchanted = tridentEntity.isEnchanted();
     }
 }
